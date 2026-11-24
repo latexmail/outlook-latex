@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- https://antonyp-wustl.github.io/outlook-latex is filled in by build.mjs (https://localhost:3000 for development). -->
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+           xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
+           xsi:type="MailApp">
+  <Id>ae396d07-8463-421e-9598-e8f52ef2cda8</Id>
+  <Version>1.1.0.0</Version>
+  <ProviderName>LaTeX for Outlook</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="LaTeX for Outlook"/>
+  <Description DefaultValue="Write math in LaTeX ($x^2$) and send it as properly typeset formulas that every recipient can see. Also shows LaTeX in messages you receive."/>
+  <IconUrl DefaultValue="https://antonyp-wustl.github.io/outlook-latex/assets/icon-64.png"/>
+  <HighResolutionIconUrl DefaultValue="https://antonyp-wustl.github.io/outlook-latex/assets/icon-128.png"/>
+  <SupportUrl DefaultValue="https://antonyp-wustl.github.io/outlook-latex/support.html"/>
+  <AppDomains>
+    <AppDomain>https://antonyp-wustl.github.io/outlook-latex</AppDomain>
+  </AppDomains>
+  <Hosts>
+    <Host Name="Mailbox"/>
+  </Hosts>
+  <Requirements>
+    <Sets>
+      <Set Name="Mailbox" MinVersion="1.8"/>
+    </Sets>
+  </Requirements>
+  <FormSettings>
+    <Form xsi:type="ItemRead">
+      <DesktopSettings>
+        <SourceLocation DefaultValue="https://antonyp-wustl.github.io/outlook-latex/read/read.html"/>
+        <RequestedHeight>250</RequestedHeight>
+      </DesktopSettings>
+    </Form>
+    <Form xsi:type="ItemEdit">
+      <DesktopSettings>
+        <SourceLocation DefaultValue="https://antonyp-wustl.github.io/outlook-latex/compose/compose.html"/>
+      </DesktopSettings>
+    </Form>
+  </FormSettings>
+  <Permissions>ReadWriteItem</Permissions>
+  <Rule xsi:type="RuleCollection" Mode="Or">
+    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit"/>
+    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Read"/>
+  </Rule>
+  <DisableEntityHighlighting>false</DisableEntityHighlighting>
+
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
+      <Requirements>
+        <bt:Sets DefaultMinVersion="1.12">
+          <bt:Set Name="Mailbox"/>
+        </bt:Sets>
+      </Requirements>
+      <Hosts>
+        <Host xsi:type="MailHost">
+          <Runtimes>
+            <!-- Send-time conversion. Classic Outlook for Windows uses the script-only override. -->
+            <Runtime resid="Commands.Url">
+              <Override type="javascript" resid="Classic.Url"/>
+            </Runtime>
+          </Runtimes>
+          <DesktopFormFactor>
+            <FunctionFile resid="Commands.Url"/>
+
+            <ExtensionPoint xsi:type="MessageReadCommandSurface">
+              <OfficeTab id="TabDefault">
+                <Group id="latexReadGroup">
+                  <Label resid="Group.Label"/>
+                  <Control xsi:type="Button" id="latexReadPane">
+                    <Label resid="Read.Label"/>
+                    <Supertip>
+                      <Title resid="Read.Label"/>
+                      <Description resid="Read.Tip"/>
+                    </Supertip>
+                    <Icon>
+                      <bt:Image size="16" resid="Icon.16x16"/>
+                      <bt:Image size="32" resid="Icon.32x32"/>
+                      <bt:Image size="80" resid="Icon.80x80"/>
+                    </Icon>
+                    <Action xsi:type="ShowTaskpane">
+                      <SourceLocation resid="Read.Url"/>
+                      <SupportsPinning>true</SupportsPinning>
+                    </Action>
+                  </Control>
+                </Group>
+              </OfficeTab>
+            </ExtensionPoint>
+
+            <ExtensionPoint xsi:type="MessageComposeCommandSurface">
+              <OfficeTab id="TabDefault">
+                <Group id="latexComposeGroup">
+                  <Label resid="Group.Label"/>
+                  <Control xsi:type="Button" id="latexComposePane">
+                    <Label resid="Compose.Label"/>
+                    <Supertip>
+                      <Title resid="Compose.Label"/>
+                      <Description resid="Compose.Tip"/>
+                    </Supertip>
+                    <Icon>
+                      <bt:Image size="16" resid="Icon.16x16"/>
+                      <bt:Image size="32" resid="Icon.32x32"/>
+                      <bt:Image size="80" resid="Icon.80x80"/>
+                    </Icon>
+                    <Action xsi:type="ShowTaskpane">
+                      <SourceLocation resid="Compose.Url"/>
+                      <SupportsPinning>true</SupportsPinning>
+                    </Action>
+                  </Control>
+                  <Control xsi:type="Button" id="latexConvertNow">
+                    <Label resid="Convert.Label"/>
+                    <Supertip>
+                      <Title resid="Convert.Label"/>
+                      <Description resid="Convert.Tip"/>
+                    </Supertip>
+                    <Icon>
+                      <bt:Image size="16" resid="Icon.16x16"/>
+                      <bt:Image size="32" resid="Icon.32x32"/>
+                      <bt:Image size="80" resid="Icon.80x80"/>
+                    </Icon>
+                    <Action xsi:type="ExecuteFunction">
+                      <FunctionName>convertNow</FunctionName>
+                    </Action>
+                  </Control>
+                </Group>
+              </OfficeTab>
+            </ExtensionPoint>
+
+            <ExtensionPoint xsi:type="LaunchEvent">
+              <LaunchEvents>
+                <LaunchEvent Type="OnMessageSend" FunctionName="onMessageSendHandler" SendMode="PromptUser"/>
+              </LaunchEvents>
+              <SourceLocation resid="Commands.Url"/>
+            </ExtensionPoint>
+          </DesktopFormFactor>
+        </Host>
+      </Hosts>
+      <Resources>
+        <bt:Images>
+          <bt:Image id="Icon.16x16" DefaultValue="https://antonyp-wustl.github.io/outlook-latex/assets/icon-16.png"/>
+          <bt:Image id="Icon.32x32" DefaultValue="https://antonyp-wustl.github.io/outlook-latex/assets/icon-32.png"/>
+          <bt:Image id="Icon.80x80" DefaultValue="https://antonyp-wustl.github.io/outlook-latex/assets/icon-80.png"/>
+        </bt:Images>
+        <bt:Urls>
+          <bt:Url id="Commands.Url" DefaultValue="https://antonyp-wustl.github.io/outlook-latex/commands/commands.html"/>
+          <bt:Url id="Classic.Url" DefaultValue="https://antonyp-wustl.github.io/outlook-latex/commands/classic.js"/>
+          <bt:Url id="Compose.Url" DefaultValue="https://antonyp-wustl.github.io/outlook-latex/compose/compose.html"/>
+          <bt:Url id="Read.Url" DefaultValue="https://antonyp-wustl.github.io/outlook-latex/read/read.html"/>
+        </bt:Urls>
+        <bt:ShortStrings>
+          <bt:String id="Group.Label" DefaultValue="LaTeX"/>
+          <bt:String id="Compose.Label" DefaultValue="LaTeX pane"/>
+          <bt:String id="Convert.Label" DefaultValue="Convert LaTeX"/>
+          <bt:String id="Read.Label" DefaultValue="Show LaTeX"/>
+        </bt:ShortStrings>
+        <bt:LongStrings>
+          <bt:String id="Compose.Tip" DefaultValue="Open the LaTeX pane: formulas you type turn into pictures as you go, with a live preview."/>
+          <bt:String id="Convert.Tip" DefaultValue="Turn every LaTeX formula in this message into a picture now."/>
+          <bt:String id="Read.Tip" DefaultValue="Show this message with its LaTeX formulas drawn."/>
+        </bt:LongStrings>
+      </Resources>
+      <!-- appendOnSendAsync: the dark-mode style rule added after the signature on send. -->
+      <ExtendedPermissions>
+        <ExtendedPermission>AppendOnSend</ExtendedPermission>
+      </ExtendedPermissions>
+    </VersionOverrides>
+  </VersionOverrides>
+</OfficeApp>

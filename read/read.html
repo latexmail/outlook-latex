@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LaTeX</title>
+  <link rel="stylesheet" href="../lib/pane.css">
+  <style>
+    #message { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14px; line-height: 1.6; }
+    #message .math { cursor: copy; border-radius: 3px; }
+    #message .math:hover { background: var(--soft); }
+    #message .math.display { display: block; text-align: center; margin: 10px 0; overflow-x: auto; white-space: normal; }
+    #message .math svg { vertical-align: middle; }
+    #message .bad { color: var(--error); font-family: Consolas, "Cascadia Mono", monospace; font-size: 12px; }
+    .bar { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  </style>
+  <script src="../lib/report.js"></script>
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <script src="../lib/mathjax-config.js"></script>
+  <script src="../vendor/tex-svg-full.js"></script>
+  <script type="module" src="read.js"></script>
+</head>
+<body>
+  <div class="bar">
+    <h1>LaTeX</h1>
+    <span class="muted" id="count"></span>
+  </div>
+  <p class="muted" id="hint">Click a formula to copy its LaTeX.</p>
+  <div id="status" role="status" aria-live="polite"></div>
+  <div id="message"></div>
+</body>
+</html>

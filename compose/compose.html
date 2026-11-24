@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LaTeX</title>
+  <link rel="stylesheet" href="../lib/pane.css">
+  <script src="../lib/report.js"></script>
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <script src="../lib/mathjax-config.js"></script>
+  <script src="../vendor/tex-svg-full.js"></script>
+  <script type="module" src="compose.js"></script>
+</head>
+<body>
+  <h1>LaTeX</h1>
+  <p class="muted">Type <code>$x^2$</code> in your message. Keep this pane open (pin it) and formulas turn into pictures when you pause.</p>
+
+  <div class="row">
+    <label for="auto">Convert as I type</label>
+    <span class="switch"><input type="checkbox" id="auto"><span></span></span>
+  </div>
+  <div class="row">
+    <label for="onSend">Convert anything left when I send</label>
+    <span class="switch"><input type="checkbox" id="onSend"><span></span></span>
+  </div>
+
+  <div class="buttons">
+    <button class="primary" id="convert">Convert now</button>
+    <button id="revert" title="Turn the pictures back into LaTeX you can edit">Back to LaTeX</button>
+  </div>
+  <div id="status" role="status" aria-live="polite"></div>
+
+  <h2 id="listTitle">Waiting for formulas</h2>
+  <ul class="list" id="list"></ul>
+  <p class="muted" id="done"></p>
+
+  <h2>Look</h2>
+  <div class="row">
+    <label for="mode">Write formulas as</label>
+    <select id="mode">
+      <option value="pictures">TeX pictures</option>
+      <option value="text">Text (follows dark mode, doesn't look like TeX)</option>
+    </select>
+  </div>
+  <div class="row">
+    <label for="fontSize">Text size (px; 16 = 12 pt)</label>
+    <input type="number" id="fontSize" min="8" max="48" step="1">
+  </div>
+  <div class="row">
+    <label for="color">Picture colour</label>
+    <input type="color" id="color">
+  </div>
+  <div class="row">
+    <label for="background">Picture background</label>
+    <select id="background">
+      <option value="transparent">See-through</option>
+      <option value="#ffffff">White (readable in dark mode)</option>
+    </select>
+  </div>
+  <p class="muted">In a dark Outlook, formulas are drawn in light ink while you write and redrawn in this colour when you send (after your first send with the add-in).</p>
+  <p class="muted">New settings apply to formulas you convert from now on. To redo old ones: Back to LaTeX, then Convert now.</p>
+
+  <details>
+    <summary>How to write formulas</summary>
+    <table class="help">
+      <tr><td><code>$a^2+b^2$</code></td><td>in a sentence</td></tr>
+      <tr><td><code>\(a^2+b^2\)</code></td><td>in a sentence</td></tr>
+      <tr><td><code>$$\int_0^1 f\,dx$$</code></td><td>on its own line, centred</td></tr>
+      <tr><td><code>\[ \sum_n a_n \]</code></td><td>on its own line, centred</td></tr>
+      <tr><td><code>\$</code></td><td>a dollar sign that's never math</td></tr>
+    </table>
+    <p class="muted">Prices like "$20 and $30" are left alone: math can't start with a space after <code>$</code> or end before a digit.</p>
+  </details>
+</body>
+</html>
